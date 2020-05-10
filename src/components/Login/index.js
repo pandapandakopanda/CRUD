@@ -17,7 +17,7 @@ class Login extends Component {
         password:'',
         color: ''
     }
-    
+
     getData=()=>{
         const {
             name,password
@@ -46,6 +46,7 @@ class Login extends Component {
     
     
     render(){
+      
         return(
             <div className={St.login}>
                <div className={this.state.color}>

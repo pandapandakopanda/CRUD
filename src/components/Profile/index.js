@@ -6,7 +6,7 @@ import Button from '../Button'
 class Profile extends Component {
 
     state ={
-        className:(localStorage.isAuthorized)? ST.signout:ST.hidden
+        className:(localStorage.isAuthorized) ? ST.signout:ST.hidden
     }
 
     render(){   
