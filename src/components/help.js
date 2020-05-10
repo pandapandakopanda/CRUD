@@ -1,5 +1,14 @@
-const calcClass = (obj) => Object.keys(obj).filter(key => !!obj[key] ).join(' ') 
+const calcClass = (obj, styleObj, extObj) => {
+    const localClasses = Object.keys(obj)
+        .filter(key => !!obj[key] )
+        .map( name => styleObj[name] ).join(' ')
 
+    const extClasses = extObj 
+        ? Object.keys(extObj).filter(key => !!extObj[key] ).join(' ')
+        : ''
+
+     return `${localClasses} ${extClasses}`   
+}
 export {
     calcClass,
 }

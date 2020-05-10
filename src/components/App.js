@@ -1,13 +1,14 @@
 import React, {Component} from 'react'
-import './index.scss'
+import ST from './index.scss'
+console.log('ST: ', ST);
 import Nav from './Nav'
 import Main from './Main'
 import Footer from './Footer'
 
 class App extends Component {
-    render() {          
+    render() {        
         return(
-          <div className='wrapper'>
+          <div className={ST.wrapper}>
               <Nav />
               <Main />
               <Footer />

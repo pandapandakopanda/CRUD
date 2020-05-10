@@ -18,7 +18,14 @@ module.exports = {
         test: /\.s[ac]ss$/i,
         use: [
           'style-loader',
-          'css-loader',
+          { 
+            loader: 'css-loader',
+            options: {
+              modules: {
+                localIdentName: '[local]__[hash:base64:5]',
+              }
+            }
+          },
           'sass-loader',
         ],
       },
@@ -29,10 +36,6 @@ module.exports = {
           loader: 'babel-loader',
         },
       },
-      {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
-      },
     ],
   },
   plugins: [
@@ -40,4 +43,9 @@ module.exports = {
       template: './src/index.html',
     }),
   ],
+  resolve: {
+    alias: {
+      '@help': path.resolve('src/components/help'),
+    }
+  }
 };

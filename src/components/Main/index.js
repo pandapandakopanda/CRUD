@@ -1,18 +1,32 @@
 import React, {createElement} from 'react'
 import {routeNode, withRoute} from 'react-router5'
-import './index.scss'
 import MainPage from '../MainPage'
+import News from '../News'
+import Profile from '../Profile'
+import Login from '../Login'
 
+import ST from './index.scss'
 
 const components={
-    'mainpage': MainPage
+    'mainpage': MainPage,
+    'news': News,
+    'login': Login,
+    'profile': Profile
 }
 
 const Main=(props)=>{
-    console.log('props: ', props);
     const {route} = props
     const segment = route.name.split('.')[0]
-    return createElement(components[segment])
+
+
+    
+    const SelectedElement = components[segment] || MainPage
+
+    return (
+        <div className={ST.wrapper}>
+            <SelectedElement />
+        </div>    
+    )
 }
 
-export default withRoute('')(Main)
+export default routeNode('')(Main)

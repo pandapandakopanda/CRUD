@@ -1,0 +1,17 @@
+.profile{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-transform: uppercase;
+}
+
+
+.signout {
+    height: 24px;
+    background-color: rgb(94, 148, 161);
+    color: white;
+}
+
+.hidden{
+    opacity: 0;
+}

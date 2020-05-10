@@ -2,4 +2,27 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: row;
+}
+
+  
+.navButton {
+    width:100px;
+    height: 30px;
+    background-color: rgb(94, 148, 161);
+    border:1px solid white;
+    user-select: none;
+    text-decoration: none;
+    color: white;
+    text-transform: uppercase;
+    overflow: hidden;
+    &:hover {
+        background-color: white;
+        color:rgb(94, 148, 161);
+    }
+}
+
+.active {
+    background-color: white;
+    color:rgb(94, 148, 161);
 }
