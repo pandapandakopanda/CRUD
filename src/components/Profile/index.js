@@ -1,33 +1,54 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import ST from './index.scss'
 import Button from '../Button'
 
 
 class Profile extends Component {
 
-    state ={
-        className:(localStorage.isAuthorized) ? ST.signout:ST.hidden
+    
+
+    redirectToLoginPage=() => {
+      console.log( 'Working Log In' )
+      window.location.href = 'http://localhost:8080/#/login'
     }
 
-    render(){   
+    setAutorizeFalse=() => {
+      console.log( 'Working Log Out' )
+      localStorage.isAuthorized = false
+    }
 
-        const setData =()=>{
-            localStorage.isAuthorized = false
-            this.setState({className:ST.hidden})
-        }
+    signOutButton = (
+      <Button 
+        className={ST.sign}
+        onClick={this.setAutorizeFalse}
+      >
+                          Sign Out
+      </Button>
+      )
+    
+      signInButton = (
+        <Button 
+          className={ST.sign}
+          onClick={this.redirectToLoginPage}
+        >
+                        Sign In
+        </Button>
+      )
+      
+      render() {   
+
+        const { isAuthorized } = localStorage
+        const setButtonType = () => ( ( isAuthorized ) ? this.signInButton : this.signOutButton )
+        const currentButton = setButtonType()
+        console.log('currentButton: ', currentButton);
        
-        return(
-            <div className={ST.profile}>
-                Profile authorized {localStorage.isAuthorized}
-                <Button 
-                    className={this.state.className}
-                    onClick={setData}
-                >
-                    Sign Out
-                </Button>
-            </div>
+        return (
+          <div className={ST.profile}>
+                Profile authorized {isAuthorized}   
+            {currentButton}
+          </div>
         )
-    }
+      }
 }
 
 export default Profile
