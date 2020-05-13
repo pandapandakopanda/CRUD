@@ -12,7 +12,7 @@ class Profile extends Component {
       window.location.href = 'http://localhost:8080/#/login'
     }
 
-    setAutorizeFalse=() => {
+    setAutorizeToFalse=() => {
       console.log( 'Working Log Out' )
       localStorage.isAuthorized = false
     }
@@ -20,7 +20,7 @@ class Profile extends Component {
     signOutButton = (
       <Button 
         className={ST.sign}
-        onClick={this.setAutorizeFalse}
+        onClick={this.setAutorizeToFalse}
       >
                           Sign Out
       </Button>
@@ -38,14 +38,11 @@ class Profile extends Component {
       render() {   
 
         const { isAuthorized } = localStorage
-        const setButtonType = () => ( ( isAuthorized ) ? this.signInButton : this.signOutButton )
-        const currentButton = setButtonType()
-        console.log('currentButton: ', currentButton);
-       
+        
         return (
           <div className={ST.profile}>
                 Profile authorized {isAuthorized}   
-            {currentButton}
+            {isAuthorized ? this.signOutButton : this.signInButton }
           </div>
         )
       }
