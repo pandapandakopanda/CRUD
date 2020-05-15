@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
 import ST from './index.scss'
 import Button from '../Button'
+import store from '../stores/authorizationStore'
+import {observer} from 'mobx-react'
 
+@observer
 
 class Profile extends Component {
 
@@ -12,7 +15,7 @@ class Profile extends Component {
       window.location.href = 'http://localhost:8080/#/login'
     }
 
-    setAutorizeToFalse=() => {
+    setAuthorizeToFalse=() => {
       console.log( 'Working Log Out' )
       localStorage.isAuthorized = false
     }
@@ -20,7 +23,7 @@ class Profile extends Component {
     signOutButton = (
       <Button 
         className={ST.sign}
-        onClick={this.setAutorizeToFalse}
+        onClick={this.setAuthorizeToFalse}
       >
                           Sign Out
       </Button>
@@ -37,11 +40,12 @@ class Profile extends Component {
       
       render() {   
 
-        const { isAuthorized } = localStorage
+        const isAuthorized = store.init()
+        console.log('isAuthorized on profile page: ', isAuthorized)
         
         return (
           <div className={ST.profile}>
-                Profile authorized {isAuthorized}   
+                Profile {isAuthorized ? 'authorized' : 'has not authorized'}   
             {isAuthorized ? this.signOutButton : this.signInButton }
           </div>
         )
