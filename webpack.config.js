@@ -1,5 +1,5 @@
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 
 module.exports = {
@@ -18,13 +18,13 @@ module.exports = {
         test: /\.s[ac]ss$/i,
         use: [
           'style-loader',
-          { 
+          {
             loader: 'css-loader',
             options: {
               modules: {
                 localIdentName: '[local]__[hash:base64:5]',
-              }
-            }
+              },
+            },
           },
           'sass-loader',
         ],
@@ -46,6 +46,17 @@ module.exports = {
   resolve: {
     alias: {
       '@help': path.resolve('src/components/help'),
-    }
-  }
-};
+    },
+  },
+  devServer: {
+    contentBase: path.join(__dirname, 'dist'),
+    compress: true,
+    port: 8080,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000',
+        pathRewrite: { '^/api': '' },
+      },
+    },
+  },
+}

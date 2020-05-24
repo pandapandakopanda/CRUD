@@ -4,6 +4,7 @@ import MainPage from '../MainPage'
 import News from '../News'
 import Profile from '../Profile'
 import Login from '../Login'
+import Registration from '../Registration'
 
 import ST from './index.scss'
 
@@ -17,7 +18,8 @@ const Main=(props)=>{
         'mainpage': MainPage,
         'news': News,
         'login': Login,
-        'profile': Profile
+        'profile': Profile,
+        'registration': Registration,
     }
     
     let SelectedElement = components[segment] || MainPage

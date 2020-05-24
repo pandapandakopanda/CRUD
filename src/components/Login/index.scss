@@ -19,11 +19,20 @@
     height: 22px;
     padding: 0px 5px;
     border: 1px solid rgb(94, 148, 161);
+    color: rgb(94, 148, 161);
     transition: all 0.3s;
+    user-select: none;
+    text-decoration: none;
+    overflow: hidden;
     &:hover{
         background-color: rgb(94, 148, 161);
         color: white;
-    }
+    };
+}
+
+.login .hidden  {
+    height: 0px;
+    opacity:0
 }
 
 .red{
@@ -32,4 +41,8 @@
 
 .green {
     color: green;
+}
+.error {
+    color: red;
+    text-transform: uppercase;
 }

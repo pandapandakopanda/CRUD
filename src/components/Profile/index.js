@@ -1,52 +1,56 @@
 import React, { Component } from 'react'
+import { inject, observer } from 'mobx-react'
+
 import ST from './index.scss'
 import Button from '../Button'
-import store from '../stores/authorizationStore'
-import {observer} from 'mobx-react'
+// import store from '../../core/stores/authorizationStore'
 
+@inject('store')
 @observer
-
 class Profile extends Component {
-
-    
-
     redirectToLoginPage=() => {
-      console.log( 'Working Log In' )
+      console.log('Working Log In')
       window.location.href = 'http://localhost:8080/#/login'
     }
 
     setAuthorizeToFalse=() => {
-      console.log( 'Working Log Out' )
-      localStorage.isAuthorized = false
+      console.log('Working Log Out')
+      this.props.store.authorizationStore.setIsAuthorized(false)
     }
 
     signOutButton = (
-      <Button 
+      <Button
         className={ST.sign}
         onClick={this.setAuthorizeToFalse}
       >
                           Sign Out
       </Button>
       )
-    
+
       signInButton = (
-        <Button 
+        <Button
           className={ST.sign}
           onClick={this.redirectToLoginPage}
         >
                         Sign In
         </Button>
       )
-      
-      render() {   
 
-        const isAuthorized = store.init()
-        console.log('isAuthorized on profile page: ', isAuthorized)
-        
+      render() {
+        const { isAuthorized } = this.props.store.authorizationStore
+        if (!isAuthorized) {
+          setTimeout(() => {
+            this.redirectToLoginPage()
+          }, 800)
+        }
+
+
         return (
           <div className={ST.profile}>
-                Profile {isAuthorized ? 'authorized' : 'has not authorized'}   
-            {isAuthorized ? this.signOutButton : this.signInButton }
+             Profile
+            {' '}
+            { isAuthorized ? 'authorized' : 'has not authorized' }
+            {isAuthorized ? this.signOutButton : null}
           </div>
         )
       }
