@@ -45,8 +45,6 @@ class Login extends Component {
       }
 
       axios.post('/api/users', newUser)
-        .then((res) => {
-        })
 
       store.refreshLocalStorage()
       this.refresh()
@@ -54,21 +52,24 @@ class Login extends Component {
     }
 
     getData=() => {
+      const {
+        login, password,
+      } = this.state
+
       const user = {
-        login: this.state.login,
-        password: this.state.password,
+        login,
+        password,
       }
 
-      store.checkLogin(user)
-
-
-      const compare = !!store.checkLogin(user)
-      console.log('compare: ', compare)
-      this.setState({ color: (compare) ? St.green : St.red })
-      setTimeout(() => {
-        this.setState({ color: '' })
-        if (compare)window.location.href = 'http://localhost:8080/#/profile'
-      }, 1000)
+      store.checkLogin(user).then(
+        (isSuccess) => {
+          this.setState({ color: isSuccess ? St.green : St.red })
+          setTimeout(() => {
+            this.setState({ color: '' })
+            if (isSuccess)window.location.href = 'http://localhost:8080/#/profile'
+          }, 1000)
+        },
+      )
     }
 
     getLogin = (ev) => {

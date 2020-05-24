@@ -1,4 +1,7 @@
 /* eslint-disable no-param-reassign */
+const { castArray } = require('./help')
+
+
 class Users {
   users = []
 
@@ -14,12 +17,16 @@ class Users {
   }
 
   fillUsers(users) {
-    if (users.length) return
-    this.users.push(users)
+    console.log('users: ', users)
+    this.users = castArray(users)
+    console.log('this.users : ', this.users)
   }
 
   checkData(data) {
+    console.log('data: ', data)
     const currentUser = this.users.find((el) => el.login === data.login)
+    console.log('this.users: ', this.users)
+    console.log('currentUser: ', currentUser)
     if (currentUser === undefined) return null
     return (currentUser.password === data.password) ? currentUser : null
   }

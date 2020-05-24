@@ -49,7 +49,7 @@ class Profile extends Component {
           <div className={ST.profile}>
              Profile
             {' '}
-            { isAuthorized ? 'authorized' : 'has not authorized' }
+            { isAuthorized ? `authorized as ${this.props.store.authorizationStore.currentUser.name}` : 'has not authorized' }
             {isAuthorized ? this.signOutButton : null}
           </div>
         )

@@ -9,6 +9,9 @@ const calcClass = (obj, styleObj, extObj) => {
 
   return `${localClasses} ${extClasses}`
 }
+
+const castArray = (mbArray) => ((Array.isArray(mbArray)) ? mbArray : [])
+
 export {
-  calcClass,
+  calcClass, castArray,
 }

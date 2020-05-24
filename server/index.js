@@ -30,17 +30,16 @@ app.post('/users', function(req, res){
 })
 
 app.post('/fillUsers', function(req,res){
-  const users = req.body
-  console.log('users in fillUsers: ', users);
-  users.fillUsers(users)
+  const usersFromDB = req.body
+  users.fillUsers(usersFromDB)
 })
 
-app.get('/getUser', function(req,res){
+app.get('/getUsers', function(req,res){
   const data = users.users
   res.send(JSON.stringify(data))
 })
 
 app.post('/checkLogin', function(req,res){
   const data = req.body
-  res.send(users.checkData(data))
+  res.send( JSON.stringify(users.checkData(data) ))
 })

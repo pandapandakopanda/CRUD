@@ -1,9 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { RouterProvider } from 'react-router5'
+import { Provider } from 'mobx-react'
 import App from './components/App'
 import createRouter from './create-router'
-import { Provider } from 'mobx-react'
 import rootStore from './core/RootStore'
 
 // import 'normalize.css'

@@ -1,20 +1,25 @@
 /* eslint-disable class-methods-use-this */
 import { action, observable } from 'mobx'
-import { getServerData, checkLoginData } from './transport'
+import { getServerData, checkLoginData, fillUsersArray } from './transport'
 
 localStorage.isAuthorized = false
 
-
 class Store {
-    @observable isAuthorized = false
+  @observable isAuthorized = false
 
-    constructor() {
-      this.init()
-    }
+  currentUser = {}
+
+  constructor() {
+    this.init()
+  }
+
+  setCurrentUser(obj) {
+    this.currentUser = obj
+  }
 
     @action init() {
-      this.isAuthorized = this.getIsAuthorized()
-    }
+    this.isAuthorized = this.getIsAuthorized()
+  }
 
     getIsAuthorized() {
       return localStorage.isAuthorized === 'true'
@@ -26,14 +31,36 @@ class Store {
     }
 
     refreshLocalStorage() {
-      const users = getServerData()
-      if (!localStorage.users) localStorage.users = JSON.stringify({})
-      localStorage.users = JSON.stringify(users)
+      getServerData().then((users) => {
+        if (!localStorage.users) localStorage.users = JSON.stringify({})
+        localStorage.users = JSON.stringify(users)
+      })
     }
 
     checkLogin(data) {
-      const result = checkLoginData(data)
+      return checkLoginData(data).then((resp) => {
+        console.log('resp: ', resp)
+
+        if (resp === null) {
+          return false
+        }
+
+        /* user.setData(resp) */
+        this.setCurrentUser(resp)
+        this.setIsAuthorized(true)
+        return true
+      })
+
+      /*
+      this.setIsAuthorized(result)
       return result
+      */
+    }
+
+
+    initializateDataBase() {
+      const users = localStorage.users ? JSON.parse(localStorage.users) : []
+      fillUsersArray(users)
     }
 
   /* getUserData(login) {
