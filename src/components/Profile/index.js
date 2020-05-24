@@ -9,12 +9,10 @@ import Button from '../Button'
 @observer
 class Profile extends Component {
     redirectToLoginPage=() => {
-      console.log('Working Log In')
       window.location.href = 'http://localhost:8080/#/login'
     }
 
     setAuthorizeToFalse=() => {
-      console.log('Working Log Out')
       this.props.store.authorizationStore.setIsAuthorized(false)
     }
 
@@ -49,7 +47,8 @@ class Profile extends Component {
           <div className={ST.profile}>
              Profile
             {' '}
-            { isAuthorized ? `authorized as ${this.props.store.authorizationStore.currentUser.name}` : 'has not authorized' }
+            { isAuthorized ? `authorized as ${this.props.store.authorizationStore.currentUser.name}`
+              : 'has not authorized' }
             {isAuthorized ? this.signOutButton : null}
           </div>
         )

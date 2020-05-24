@@ -24,3 +24,33 @@ router.start(() => {
     document.querySelector('#root'),
   )
 })
+
+
+const res = 'Res from const'
+
+new Promise((resolve, reject) => {
+  console.log('Promise :')
+  setTimeout(() => {
+    reject('FAILED')
+    resolve('done')
+  }, 1000)
+}).then(
+  (result) => {
+    console.log('result from resolve:', result)
+    return 'done2'
+  },
+  (rejectResult) => {
+    console.log('rejectResult: ', rejectResult)
+    return new Promise((resolve, reject) => {
+      console.log('Promise N2:')
+      setTimeout(() => {
+        reject(res)
+        resolve('DONE Resolve N2')
+      }, 1000)
+    }).then((result2) => {
+      console.log(result2)
+    })
+  },
+).then((resultFromThen) => {
+  console.log('resultFromThen: ', resultFromThen)
+})

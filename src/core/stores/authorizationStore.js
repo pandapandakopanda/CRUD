@@ -47,6 +47,7 @@ class Store {
 
         /* user.setData(resp) */
         this.setCurrentUser(resp)
+        console.log('resp: ', resp)
         this.setIsAuthorized(true)
         return true
       })
