@@ -14,13 +14,19 @@
 }
 
 .login .submit{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items:center;
     user-select: none;
     margin-top: 10px;
-    height: 22px;
+    height: 24px;
     padding: 0px 5px;
     border: 1px solid rgb(94, 148, 161);
     color: rgb(94, 148, 161);
-    transition: all 0.3s;
+    transition: background-color 0.5s,
+                color 0.5s,
+                width 0.5s;
     user-select: none;
     text-decoration: none;
     overflow: hidden;
@@ -30,9 +36,54 @@
     };
 }
 
+
 .login .hidden  {
     height: 0px;
     opacity:0
+}
+
+.loading, .loadingHide {
+    position: relative;
+    opacity: 1;
+    border: 1px dotted;
+    border-color:rgb(94, 148, 161);
+    align-self: center;
+    justify-self: center;
+    border-radius: 50%;
+    margin-left: 5px;
+    margin-bottom: 5px;
+    border-top-color: rgba(255, 0, 0, 0);
+    width: 15px;
+    height: 15px;
+    transition: width 0.1s;
+    animation: spin 1s infinite linear,
+                colors 1s infinite linear,
+}
+.loadingHide {
+    opacity: 0;
+    position: absolute;
+    width: 0px;
+    height: 0px;
+}
+
+@keyframes spin {
+    0% {transform: rotate(0deg);}
+    20% {transform: rotate(76deg);}
+    40% {transform: rotate(152deg);}
+    60% {transform: rotate(228deg);}
+    80% {transform: rotate(304deg);}
+    100% {transform: rotate(380deg);}
+}
+
+@keyframes colors {
+    0%{border-color: rgb(205, 219, 245);
+    border-top-color: rgba(255, 0, 0, 0);}
+    25%{border-color: rgb(220, 182, 245);
+        border-top-color: rgba(255, 0, 0, 0)}
+    50%{border-color: rgb(243, 178, 221);
+        border-top-color: rgba(255, 0, 0, 0)}
+    100%{border-color: rgb(248, 193, 207);
+        border-top-color: rgba(255, 0, 0, 0)}
 }
 
 .red{

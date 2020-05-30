@@ -1,3 +1,4 @@
+/* eslint-disable react/sort-comp */
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 
@@ -35,7 +36,8 @@ class Profile extends Component {
       )
 
       render() {
-        const { isAuthorized } = this.props.store.authorizationStore
+        const { authorizationStore } = this.props.store
+        const { isAuthorized } = authorizationStore
         if (!isAuthorized) {
           setTimeout(() => {
             this.redirectToLoginPage()
@@ -47,9 +49,10 @@ class Profile extends Component {
           <div className={ST.profile}>
              Profile
             {' '}
-            { isAuthorized ? `authorized as ${this.props.store.authorizationStore.currentUser.name}`
+            { isAuthorized ? `authorized as ${authorizationStore.currentUser.name}`
               : 'has not authorized' }
             {isAuthorized ? this.signOutButton : null}
+
           </div>
         )
       }

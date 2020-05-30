@@ -7,6 +7,8 @@ localStorage.isAuthorized = false
 class Store {
   @observable isAuthorized = false
 
+  @observable isLoading = false
+
   currentUser = {}
 
   constructor() {
@@ -15,6 +17,10 @@ class Store {
 
   setCurrentUser(obj) {
     this.currentUser = obj
+  }
+
+  @ action setIsLoadingState(value) {
+    this.isLoading = value
   }
 
     @action init() {
@@ -38,24 +44,19 @@ class Store {
     }
 
     checkLogin(data) {
+      this.setIsLoadingState(true)
       return checkLoginData(data).then((resp) => {
         console.log('resp: ', resp)
-
+        this.setIsLoadingState(false)
         if (resp === null) {
           return false
         }
-
         /* user.setData(resp) */
         this.setCurrentUser(resp)
         console.log('resp: ', resp)
         this.setIsAuthorized(true)
         return true
       })
-
-      /*
-      this.setIsAuthorized(result)
-      return result
-      */
     }
 
 
@@ -63,30 +64,6 @@ class Store {
       const users = localStorage.users ? JSON.parse(localStorage.users) : []
       fillUsersArray(users)
     }
-
-  /* getUserData(login) {
-      if (!localStorage.users) localStorage.users = JSON.stringify({})
-      const users = JSON.parse(localStorage.users)
-      const userData = users[login]
-      return (userData !== undefined) ? userData : false
-    }
-
-    checkData(user) {
-      const existUser = this.getUserData(user.login)
-      if (!existUser) return false
-      const { login, password } = existUser
-
-      const supposedUser = {
-        login,
-        password,
-      }
-      return JSON.stringify(user) === JSON.stringify(supposedUser)
-    }
-
-    checkDataAndAuthorized(user) {
-      this.setIsAuthorized(this.checkData(user))
-      return this.checkData(user)
-    } */
 }
 
 const store = new Store()

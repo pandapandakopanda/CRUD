@@ -5,7 +5,6 @@ import axios from 'axios'
 import St from './index.scss'
 import Button from '../Button'
 import store from '../../core/stores/authorizationStore'
-import { checkLoginData } from '../../core/stores/transport'
 
 
 @observer
@@ -98,7 +97,11 @@ class Login extends Component {
       this.setState({ isRegOpen: !isRegOpen })
     }
 
-    isLoginButVisible = () => {
+    redirectToProfilePage=() => {
+      window.location.href = 'http://localhost:8080/#/profile'
+    }
+
+    isLoginButVisible = (isLoading) => {
       if (!this.state.isRegOpen) {
         return (
           <Button
@@ -106,17 +109,24 @@ class Login extends Component {
             onClick={this.getData}
           >
             Sign in
+            <div className={isLoading ? St.loading : St.loadingHide} />
           </Button>
         )
       } return ''
     }
 
     render() {
+      const { isAuthorized } = store
+      if (isAuthorized) {
+        setTimeout(() => {
+          this.redirectToProfilePage()
+        }, 200)
+      }
       const hiddenInputClassName = (this.state.isRegOpen) ? '' : St.hidden
       const regButName = (this.state.isRegOpen) ? 'Submit' : 'Registration'
       const regButOnclick = (this.state.isRegOpen) ? this.registration : this.toggle
-      const loginButton = this.isLoginButVisible()
-
+      const { isLoading } = store
+      const loginButton = this.isLoginButVisible(isLoading)
 
       return (
 
@@ -151,6 +161,7 @@ class Login extends Component {
             {regButName}
           </Button>
           <p className={St.error}>{this.state.error}</p>
+
         </div>
       )
     }
