@@ -1,7 +1,6 @@
 /* eslint-disable react/state-in-constructor */
 import React, { Component } from 'react'
 import { observer } from 'mobx-react'
-import axios from 'axios'
 import St from './index.scss'
 import Button from '../Button'
 import store from '../../core/stores/authorizationStore'
@@ -10,10 +9,6 @@ import store from '../../core/stores/authorizationStore'
 @observer
 class Login extends Component {
     state = {
-      login: '',
-      password: '',
-      name: '',
-      email: '',
       color: '',
       isRegOpen: false,
       error: null,
@@ -26,41 +21,24 @@ class Login extends Component {
     }
 
     registration =() => {
+      // is atleast one of fields empty?
       const inputs = new Set(document.getElementsByTagName('input'))
       const empty = Array.from(inputs).filter((el) => el.value.length === 0)
-      console.log('empty: ', empty)
       if (empty.length > 0) {
         this.setState({ error: 'Please fill all field' })
         return
       }
       this.setState({ error: null })
+      //------
 
-      const newUser = {
-        login: this.state.login,
-        password: this.state.password,
-        name: this.state.name,
-        email: this.state.email,
-
-      }
-
-      axios.post('/api/users', newUser)
-
+      store.addNewUser()
       store.refreshLocalStorage()
       this.refresh()
       this.toggle()
     }
 
     getData=() => {
-      const {
-        login, password,
-      } = this.state
-
-      const user = {
-        login,
-        password,
-      }
-
-      store.checkLogin(user).then(
+      store.checkLogin().then(
         (isSuccess) => {
           this.setState({ color: isSuccess ? St.green : St.red })
           setTimeout(() => {
@@ -73,22 +51,22 @@ class Login extends Component {
 
     getLogin = (ev) => {
       const { value } = ev.target
-      this.setState({ login: value })
+      store.setLogin(value)
     }
 
     getName = (ev) => {
       const { value } = ev.target
-      this.setState({ name: value })
+      store.setName(value)
     }
 
     getEmail = (ev) => {
       const { value } = ev.target
-      this.setState({ email: value })
+      store.setEmail(value)
     }
 
     getPassword = (ev) => {
       const { value } = ev.target
-      this.setState({ password: value })
+      store.setPassword(value)
     }
 
 

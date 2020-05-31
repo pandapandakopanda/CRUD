@@ -43,3 +43,11 @@ app.post('/checkLogin', function(req,res){
   const data = req.body
   res.send( JSON.stringify(users.checkData(data) ))
 })
+
+app.get('/isUserExist', function(req,res){
+  const login = req.body
+  console.log('login: ', login);
+  const isExist = users.isUserExist(login)
+  console.log('isExist: ', isExist);
+  res.send(isExist)
+})

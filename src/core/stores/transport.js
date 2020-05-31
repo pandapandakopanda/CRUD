@@ -9,3 +9,8 @@ export const checkLoginData = (data) => axios.post('api/checkLogin', data)
 export const fillUsersArray = (users) => {
   axios.post('api/fillUsers', users)
 }
+
+export const isExist = (login) => {
+  console.log('login: ', login)
+  return axios.get('api/isUserExist', login).then((res) => res.data)
+}
