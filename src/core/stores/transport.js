@@ -11,6 +11,10 @@ export const fillUsersArray = (users) => {
 }
 
 export const isExist = (login) => {
-  console.log('login: ', login)
-  return axios.get('api/isUserExist', login).then((res) => res.data)
+  console.log('login in transport: ', login)
+  return axios.post('api/isUserExist', login).then((res) => res.data)
+}
+
+export const addNewUser = (user) => {
+  axios.post('/api/users', user)
 }

@@ -10,30 +10,10 @@ import store from '../../core/stores/authorizationStore'
 class Login extends Component {
     state = {
       color: '',
-      isRegOpen: false,
-      error: null,
-    }
-
-
-    refresh =() => {
-      const inputs = new Set(document.getElementsByTagName('input'))
-      Array.from(inputs).forEach((el) => el.value = '')
     }
 
     registration =() => {
-      // is atleast one of fields empty?
-      const inputs = new Set(document.getElementsByTagName('input'))
-      const empty = Array.from(inputs).filter((el) => el.value.length === 0)
-      if (empty.length > 0) {
-        this.setState({ error: 'Please fill all field' })
-        return
-      }
-      this.setState({ error: null })
-      //------
-
       store.addNewUser()
-      store.refreshLocalStorage()
-      this.refresh()
       this.toggle()
     }
 
@@ -48,6 +28,7 @@ class Login extends Component {
         },
       )
     }
+
 
     getLogin = (ev) => {
       const { value } = ev.target
@@ -71,8 +52,7 @@ class Login extends Component {
 
 
     toggle =() => {
-      const { isRegOpen } = this.state
-      this.setState({ isRegOpen: !isRegOpen })
+      if (store.error === null) store.toggleRegistrationForm()
     }
 
     redirectToProfilePage=() => {
@@ -80,7 +60,7 @@ class Login extends Component {
     }
 
     isLoginButVisible = (isLoading) => {
-      if (!this.state.isRegOpen) {
+      if (!store.isRegistrationOpen) {
         return (
           <Button
             className={St.submit}
@@ -100,9 +80,9 @@ class Login extends Component {
           this.redirectToProfilePage()
         }, 200)
       }
-      const hiddenInputClassName = (this.state.isRegOpen) ? '' : St.hidden
-      const regButName = (this.state.isRegOpen) ? 'Submit' : 'Registration'
-      const regButOnclick = (this.state.isRegOpen) ? this.registration : this.toggle
+      const hiddenInputClassName = (store.isRegistrationOpen) ? '' : St.hidden
+      const regButName = (store.isRegistrationOpen) ? 'Submit' : 'Registration'
+      const regButOnclick = (store.isRegistrationOpen) ? this.registration : this.toggle
       const { isLoading } = store
       const loginButton = this.isLoginButVisible(isLoading)
 
@@ -114,6 +94,7 @@ class Login extends Component {
             <input
               type="text"
               onChange={this.getLogin}
+              value={store.login}
             />
           </div>
           <div className={this.state.color}>
@@ -121,15 +102,16 @@ class Login extends Component {
             <input
               type="password"
               onChange={this.getPassword}
+              value={store.password}
             />
           </div>
           <div className={hiddenInputClassName}>
               Name:
-            <input type="text" onChange={this.getName} />
+            <input type="text" onChange={this.getName} value={store.name} />
           </div>
           <div className={hiddenInputClassName}>
               E-mail:
-            <input type="text" onChange={this.getEmail} />
+            <input type="text" onChange={this.getEmail} value={store.email} />
           </div>
           {loginButton}
           <Button
@@ -138,7 +120,7 @@ class Login extends Component {
           >
             {regButName}
           </Button>
-          <p className={St.error}>{this.state.error}</p>
+          <p className={St.error}>{store.error}</p>
 
         </div>
       )

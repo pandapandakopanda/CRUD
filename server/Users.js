@@ -27,8 +27,8 @@ class Users {
   }
 
   isUserExist(login) {
-    const isExist = this.users.find((el) => el.login === login)
-    console.log('isExist: ', isExist)
+    const isExist = this.users.find((el) => el.login === login.login)
+    return !(isExist === undefined)
   }
 
   getData(id) {

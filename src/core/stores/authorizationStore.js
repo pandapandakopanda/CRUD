@@ -3,7 +3,7 @@
 import axios from 'axios'
 import { action, observable, computed } from 'mobx'
 import {
-  getServerData, checkLoginData, fillUsersArray, isExist,
+  getServerData, checkLoginData, fillUsersArray, isExist, addNewUser,
 } from './transport'
 
 localStorage.isAuthorized = false
@@ -21,6 +21,12 @@ class Store {
 
   @observable email = null
 
+  @observable isRegistrationOpen = false
+
+  @observable isUserAlreadyExist = false
+
+  @observable error = null
+
   @computed get newUser() {
     const {
       login, password, name, email,
@@ -30,6 +36,10 @@ class Store {
     }
   }
 
+  @computed get isEmptyField() {
+    const isEmpty = Object.keys(this.newUser).find((key) => this.newUser[key] === null)
+    return isEmpty
+  }
 
   currentUser = {}
 
@@ -37,11 +47,14 @@ class Store {
     this.init()
   }
 
+  @action toggleRegistrationForm() {
+    this.isRegistrationOpen = !this.isRegistrationOpen
+  }
+
   @action setLogin = (login) => {
     this.login = login
     this.debouncedIsUserExist(login)
   }
-
 
   @action setPassword = (password) => {
     this.password = password
@@ -71,13 +84,31 @@ class Store {
       return localStorage.isAuthorized === 'true'
     }
 
-    @action setIsAuthorized(value) {
-      this.isAuthorized = value
-      localStorage.setItem('isAuthorized', value)
+   @action refresh() {
+      this.login = ''
+      this.password = ''
+      this.name = ''
+      this.email = ''
     }
 
+    @action setIsAuthorized(value) {
+     this.isAuthorized = value
+     localStorage.setItem('isAuthorized', value)
+   }
+
     addNewUser() {
-      axios.post('/api/users', this.newUser)
+      if (this.isEmptyField) {
+        this.error = 'Fill all fields'
+        this.refresh()
+      } else if (this.isUserAlreadyExist) {
+        this.error = 'This user already exist'
+        this.refresh()
+      } else {
+        this.error = null
+        addNewUser(this.newUser)
+        this.refresh()
+        this.refreshLocalStorage()
+      }
     }
 
     refreshLocalStorage() {
@@ -102,9 +133,15 @@ class Store {
       }
     }
 
-    isUserExist(login) {
-      console.log('login: ', login)
-      isExist({ login }).then((resp) => console.log('resp', resp))
+    @action isUserExist = (login) => {
+      isExist({ login }).then((resp) => {
+        this.setIsUserExist(resp)
+        this.error = this.isUserAlreadyExist ? 'This user already exist' : null
+      })
+    }
+
+    @action setIsUserExist(value) {
+      this.isUserAlreadyExist = value
     }
 
     debouncedIsUserExist = this.deBouncing(this.isUserExist, 1000)
