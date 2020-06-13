@@ -1,49 +1,53 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
+import { BaseLink, withRoute } from 'react-router5'
+import { observer } from 'mobx-react'
+import store from '../../core/stores/backgroundStore'
 import ST from './index.scss'
 import Button from '../Button'
-import { BaseLink, withRoute } from 'react-router5'
 import { calcClass } from '@help'
 
-const buttons = ['mainpage','login','news','profile']
+const buttons = ['mainpage', 'login', 'news', 'profile']
 
-
+@observer
 class Nav extends Component {
-    render(){
-        const {router} = this.props
-        const activeName = this.props.route.name
-        
-        const elements = buttons.map((el,i,buttons) =>  {
-            const isReload = buttons.indexOf(el)===0
-            const isActive = el === activeName
+    x = 1
 
-            const btnClassName = calcClass({
-                navButton: true,
-                active: isActive,
-            }, ST)    
+    render() {
+      const { router } = this.props
+      const activeName = this.props.route.name
 
-            return (
-                <BaseLink
-                    key = {el}
-                    router={router}
-                    routeName={el}
-                    routeOptions={{reload:isReload}}
-                >
-                    <Button 
-                        key={el} 
-                        className={btnClassName}
-                        isActive={isActive}
-                    >
-                        {el}
-                    </Button>
-                </BaseLink>
-                )
-            }
+      const elements = buttons.map((el, i, buttons) => {
+        const isReload = buttons.indexOf(el) === 0
+        const isActive = el === activeName
+
+        const btnClassName = calcClass({
+          navButton: store.isTumblerOn,
+          'navButton-light': !store.isTumblerOn,
+          active: isActive,
+        }, ST)
+
+        return (
+          <BaseLink
+            key={el}
+            router={router}
+            routeName={el}
+            routeOptions={{ reload: isReload }}
+          >
+            <Button
+              key={el}
+              className={btnClassName}
+              isActive={isActive}
+            >
+              {el}
+            </Button>
+          </BaseLink>
         )
-        return(
-            <header>
-                {elements}
-            </header>
-        )
+      })
+      return (
+        <header>
+          {elements}
+        </header>
+      )
     }
 }
 

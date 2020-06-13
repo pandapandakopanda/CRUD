@@ -3,7 +3,7 @@
     margin-top: 20px;
     flex-direction: column;
     align-items: flex-end;
-    color: rgb(94, 148, 161);
+    color: rgb(245, 252, 253);
     div{
         margin-top: 5px;
     }
@@ -22,8 +22,8 @@
     margin-top: 10px;
     height: 24px;
     padding: 0px 5px;
-    border: 1px solid rgb(94, 148, 161);
-    color: rgb(94, 148, 161);
+    border: 1px solid rgb(245, 252, 253);
+    color: rgb(245, 252, 253);
     transition: background-color 0.5s,
                 color 0.5s,
                 width 0.5s;
@@ -93,7 +93,20 @@
 .green {
     color: green;
 }
+
+p{
+    font-size: 15px;
+    margin-top: 0;
+    padding: 0;
+    border:1px solid red;
+}
+
 .error {
     color: red;
+    text-transform: uppercase;
+}
+
+.success {
+    color: rgb(21, 255, 0);
     text-transform: uppercase;
 }

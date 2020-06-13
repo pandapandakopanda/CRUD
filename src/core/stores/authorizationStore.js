@@ -27,6 +27,8 @@ class Store {
 
   @observable error = null
 
+  @observable success = null
+
   @computed get newUser() {
     const {
       login, password, name, email,
@@ -38,6 +40,8 @@ class Store {
 
   @computed get isEmptyField() {
     const isEmpty = Object.keys(this.newUser).find((key) => this.newUser[key] === null)
+    Object.keys(this.newUser).forEach((key) => console.log(`${key} : ${this.newUser[key]}`))
+    console.log('isEmpty: ', isEmpty)
     return isEmpty
   }
 
@@ -85,29 +89,44 @@ class Store {
     }
 
    @action refresh() {
-      this.login = ''
-      this.password = ''
-      this.name = ''
-      this.email = ''
+      this.login = null
+      this.password = null
+      this.name = null
+      this.email = null
     }
 
     @action setIsAuthorized(value) {
      this.isAuthorized = value
+     if (!value) this.refresh()
      localStorage.setItem('isAuthorized', value)
    }
 
+    @action showAndHideError(error) {
+      this.error = error
+      setTimeout(() => {
+        this.error = null
+      }, 1000)
+    }
+
+    @action showAndHideSucces(value) {
+      this.success = value
+      this.error = null
+      setTimeout(() => {
+        this.success = null
+      }, 1000)
+    }
+
     addNewUser() {
       if (this.isEmptyField) {
-        this.error = 'Fill all fields'
-        this.refresh()
+        this.showAndHideError('Fill all fields')
       } else if (this.isUserAlreadyExist) {
-        this.error = 'This user already exist'
+        this.showAndHideError('This user already exist')
         this.refresh()
       } else {
-        this.error = null
         addNewUser(this.newUser)
         this.refresh()
         this.refreshLocalStorage()
+        this.showAndHideSucces('The user has created')
       }
     }
 
@@ -136,7 +155,7 @@ class Store {
     @action isUserExist = (login) => {
       isExist({ login }).then((resp) => {
         this.setIsUserExist(resp)
-        this.error = this.isUserAlreadyExist ? 'This user already exist' : null
+        this.error = (this.isUserAlreadyExist && this.isRegistrationOpen) ? 'This user already exist' : null
       })
     }
 
@@ -149,6 +168,7 @@ class Store {
     checkLogin() {
       const { login, password } = this.newUser
       const data = { login, password }
+      console.log('data: ', data)
       this.setIsLoadingState(true)
       return checkLoginData(data).then((resp) => {
         console.log('resp: ', resp)

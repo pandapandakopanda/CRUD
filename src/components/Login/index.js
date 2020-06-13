@@ -52,7 +52,7 @@ class Login extends Component {
 
 
     toggle =() => {
-      if (store.error === null) store.toggleRegistrationForm()
+      if (store.error === null)store.toggleRegistrationForm()
     }
 
     redirectToProfilePage=() => {
@@ -85,6 +85,10 @@ class Login extends Component {
       const regButOnclick = (store.isRegistrationOpen) ? this.registration : this.toggle
       const { isLoading } = store
       const loginButton = this.isLoginButVisible(isLoading)
+      const isError = store.error !== null
+
+      console.log('store.login: ', store.login)
+
 
       return (
 
@@ -94,7 +98,7 @@ class Login extends Component {
             <input
               type="text"
               onChange={this.getLogin}
-              value={store.login}
+              value={store.login || ''}
             />
           </div>
           <div className={this.state.color}>
@@ -102,16 +106,16 @@ class Login extends Component {
             <input
               type="password"
               onChange={this.getPassword}
-              value={store.password}
+              value={store.password || ''}
             />
           </div>
           <div className={hiddenInputClassName}>
               Name:
-            <input type="text" onChange={this.getName} value={store.name} />
+            <input type="text" onChange={this.getName} value={store.name || ''} />
           </div>
           <div className={hiddenInputClassName}>
               E-mail:
-            <input type="text" onChange={this.getEmail} value={store.email} />
+            <input type="text" onChange={this.getEmail} value={store.email || ''} />
           </div>
           {loginButton}
           <Button
@@ -120,7 +124,7 @@ class Login extends Component {
           >
             {regButName}
           </Button>
-          <p className={St.error}>{store.error}</p>
+          <p className={isError ? St.error : St.success}>{isError ? store.error : store.success}</p>
 
         </div>
       )

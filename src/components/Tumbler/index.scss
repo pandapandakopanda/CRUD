@@ -1,0 +1,26 @@
+.verticalLine {
+  margin-top: 10px;
+  width: 30px;
+  height: 15px;
+  border-radius: 25px;
+  background-color: rgba(245, 252, 253, 0.753);
+  display: flex;
+  cursor: pointer;
+}
+
+.circle, .circle-left {
+  width: 15px;
+  height: 15px;
+  margin-left: 0;
+  position: absolute;
+  border-radius:10px;
+  background-color: rgb(66, 63, 94);
+  cursor: pointer;
+  transition: margin 0.5s,
+              background-color 0.5s
+}
+
+.circle-left{
+  margin-left: 15px;
+  background-color:rgba(48, 38, 38, 0.781);
+}

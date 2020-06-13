@@ -1,5 +1,17 @@
-.wrapper {
+.wrapper, .wrapper-dark {
     flex: 1;
+    min-width: 250px;
     display: flex;
     margin-top: 20px;
+    padding:10px;
+    background-color: rgba(255, 255, 255, 0.644);
+    border-radius: 2px;
+    box-shadow: 5px 5px 20px black;
+    justify-content: center;
+    color: rgb(245, 252, 253);
+    transition: background-color 0.5s;
+}
+
+.wrapper-dark {
+    background-color: rgba(48, 38, 38, 0.781);
 }

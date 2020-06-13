@@ -6,10 +6,11 @@ header {
 }
 
   
-.navButton {
+.navButton, .navButton-light {
     width:100px;
     height: 30px;
-    background-color: rgb(94, 148, 161);
+    background-image: url('../image/milkyway.jpg');
+    background-size: cover;
     border:1px solid white;
     user-select: none;
     text-decoration: none;
@@ -17,12 +18,20 @@ header {
     text-transform: uppercase;
     overflow: hidden;
     &:hover {
+        background-image:none;
         background-color: white;
-        color:rgb(94, 148, 161);
+        color:rgb(8, 15, 37);
     }
 }
 
+.navButton-light{
+    background-image:none;
+    background-color:rgba(48, 38, 38, 0.466);
+    color:rgb(255, 255, 255);
+}
+
 .active {
+    background-image: none;
     background-color: white;
-    color:rgb(94, 148, 161);
+    color:rgb(8, 15, 37);
 }
